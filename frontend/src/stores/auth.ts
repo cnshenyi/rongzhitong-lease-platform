@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
       // Mock fallback: 后端未部署时允许演示登录
       if (username === 'admin' && password === 'admin123') {
         token.value = 'mock-token-' + Date.now()
-        userInfo.value = { id: 1, username: 'admin', realName: '系统管理员', role: 'admin', status: 1 } as UserInfo
+        userInfo.value = { id: 1, username: 'admin', realName: '系统管理员', role: 'admin', status: 1, avatar: '/assets/user-avatar.svg' } as UserInfo
         isLoggedIn.value = true
         localStorage.setItem('token', token.value)
         ElMessage.success('登录成功（演示模式）')
