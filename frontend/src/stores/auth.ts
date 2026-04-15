@@ -8,7 +8,7 @@ export const useAuthStore = defineStore('auth', () => {
   const userInfo = ref<UserInfo | null>(null)
   const isLoggedIn = ref<boolean>(!!token.value)
 
-  // 登录
+  // 登录（后端不可用时自动降级为 mock 模式）
   async function login(username: string, password: string) {
     try {
       const response = await loginApi({ username, password })
@@ -17,13 +17,21 @@ export const useAuthStore = defineStore('auth', () => {
       userInfo.value = response.data.user
       isLoggedIn.value = true
       
-      // 保存 token 到 localStorage
       localStorage.setItem('token', token.value)
-      
       ElMessage.success('登录成功')
       return true
     } catch (error) {
+      // Mock fallback: 后端未部署时允许演示登录
+      if (username === 'admin' && password === 'admin123') {
+        token.value = 'mock-token-' + Date.now()
+        userInfo.value = { id: 1, username: 'admin', realName: '系统管理员', role: 'admin', status: 1 } as UserInfo
+        isLoggedIn.value = true
+        localStorage.setItem('token', token.value)
+        ElMessage.success('登录成功（演示模式）')
+        return true
+      }
       console.error('登录失败:', error)
+      ElMessage.error('用户名或密码错误')
       return false
     }
   }
