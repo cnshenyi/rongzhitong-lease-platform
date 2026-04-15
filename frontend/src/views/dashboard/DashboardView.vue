@@ -185,8 +185,8 @@ const trendPeriod = ref('week')
 
 const trendChartOption = computed(() => ({
   tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-  legend: { data: ['项目数', '合同额(万)', '处理量'] },
-  grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+  legend: { data: ['项目数', '合同额(万)', '处理量'], bottom: 0 },
+  grid: { left: '3%', right: '4%', bottom: '12%', containLabel: true },
   xAxis: {
     type: 'category',
     data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
